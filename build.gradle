@@ -1,0 +1,58 @@
+final def type = tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    defaultTasks 'clean', 'aggregate'
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.34")
+    }
+}
+
+
+
+ext {
+    lombokVersion = '1.18.16'
+    serenityVersion = '2.0.73'
+}
+dependencies {
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.22.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-core', version: '3.2.4'
+    implementation group: 'net.serenity-bdd', name: 'serenity-junit', version: '3.2.4'
+    implementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: '3.2.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay', version: '3.2.1'
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay-webdriver', version: '3.2.1'
+    implementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: '3.2.4'
+    implementation group: 'net.serenity-bdd', name: 'serenity-gradle-plugin', version: '2.4.34'
+    implementation group: 'net.serenity-bdd', name: 'serenity-single-page-report', version: '3.2.5'
+    implementation group: 'net.serenity-bdd', name: 'serenity-reports', version: '3.2.5'
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.36'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:' + lombokVersion
+    compileOnly 'org.projectlombok:lombok:' + lombokVersion
+    annotationProcessor 'org.projectlombok:lombok:' + lombokVersion
+    testCompileOnly 'org.projectlombok:lombok:' + lombokVersion
+    testAnnotationProcessor 'org.projectlombok:lombok:' + lombokVersion
+}
+
+
+test {
+    systemProperty "cucumber.options", System.getProperty("cucumber.options")
+}
